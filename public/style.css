@@ -1,0 +1,18 @@
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table {
+  width: 80vh;
+  height: 80vh;
+}
+
+.square {
+  font-size: 10vh;
+  font-family: Verdana, sans-serif;
+}
+
+.blank {
+  color: white;
+}
