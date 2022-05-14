@@ -1,12 +1,12 @@
 import React from 'react';
-import Board from './board';
+import App from './app';
 import { Provider } from 'react-redux'
 import store from '../store';
 
 export default () => {
   return (
     <Provider store={store}>
-      <Board />
+      <App />
     </Provider>
   )
 }

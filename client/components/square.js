@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import store from '../store';
-import { getAi } from '../store';
+import { getAi, getPlayer } from '../store';
 
 class Square extends React.Component {
   constructor(props) {
@@ -13,26 +12,28 @@ class Square extends React.Component {
     }
   }
 
-  async select(e) {
+  async move(e) {
     e.preventDefault();
     this.setState({
       loading: true
     });
-    this.props.move(this.props.coords).then(res =>
+    this.props.getPlayer(this.props.coords)
+    await this.props.getAi().then(res =>
       this.setState({
         loading: false,
         error: res
       })
     );
+
   }
 
   render() {
     const content = this.props.content;
     if (content == '') return (
-      <span className="square blank" onClick={this.props.getAi}>██</span>
+      <th className="square" onClick={(e) => this.move(e)}></th>
     );
     return (
-      <span className="square">{content}</span>
+      <th className="square">{content}</th>
     );
   }
 }
@@ -45,7 +46,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAi: () => dispatch(getAi())
+    getAi: () => dispatch(getAi()),
+    getPlayer: (coords) => dispatch(getPlayer(coords))
   };
 }
 

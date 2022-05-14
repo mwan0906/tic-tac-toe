@@ -3,7 +3,6 @@
 import React from 'react';
 import Square from './square';
 import { connect } from 'react-redux';
-import store from '../store';
 
 class Board extends React.Component {
   constructor(props) {
@@ -16,29 +15,33 @@ class Board extends React.Component {
     for (let i = 0; i < 3; i++) {
       let row = []
       for (let j = 0; j < 3; j++) {
-        row.push(<th><Square coords={[i,j]} content={board[i][j]} /></th>)
+        row.push(<Square coords={[i,j]} content={board[i][j]} />)
       }
       grid.push(row);
     }
     return (
-      <table id='board'>
-        <tr>
-          {grid[0]}
-        </tr>
-        <tr>
-          {grid[1]}
-        </tr>
-        <tr>
-          {grid[2]}
-        </tr>
-      </table>
+      <React.Fragment>
+        {!this.props.loading && <img src='../throbber.gif' id='loading' />}
+        <table id='board'>
+          <tr>
+            {grid[0]}
+          </tr>
+          <tr>
+            {grid[1]}
+          </tr>
+          <tr>
+            {grid[2]}
+          </tr>
+        </table>
+      </React.Fragment>
     );
   };
 };
 
 const mapStateToProps = state => {
   return {
-    board: state.board
+    board: state.board,
+    loading: state.loading
   };
 };
 
