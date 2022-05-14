@@ -74,7 +74,6 @@ export const getAi = () => async (dispatch, getState) => {
     { headers: { authorization: 'bearer ' + window.sessionStorage.getItem('token') } }
   )
   .then(({data}) => {
-    console.log(data);
     if (data.success) dispatch(aiSet(data.board))
     else dispatch(aiSet(board))
   });

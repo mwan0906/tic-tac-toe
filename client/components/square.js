@@ -7,40 +7,52 @@ class Square extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
       error: ''
     }
   }
 
   async move(e) {
     e.preventDefault();
-    this.setState({
-      loading: true
-    });
-    this.props.getPlayer(this.props.coords)
-    await this.props.getAi().then(res =>
-      this.setState({
-        loading: false,
-        error: res
-      })
-    );
+    if (!this.props.loading) {
 
+      this.props.getPlayer(this.props.coords)
+
+      await this.props.getAi().then(res =>
+        this.setState({
+          error: res
+        })
+      );
+
+    }
+
+  }
+
+  hover(e) {
+    e.target.style.background = 'lightgray';
+  }
+
+  unhover(e) {
+    e.target.style.background = '';
   }
 
   render() {
     const content = this.props.content;
-    if (content == '') return (
-      <th className="square" onClick={(e) => this.move(e)}></th>
-    );
+    const onClick = (content == '') ? (e) => this.move(e) : null;
     return (
-      <th className="square">{content}</th>
+      <th className="square"
+        onMouseEnter={(e) => this.hover(e)}
+        onMouseLeave={(e) => this.unhover(e)}
+        onClick={onClick}
+      >{content}
+      </th>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    board: state.board
+    board: state.board,
+    loading: state.loading
   };
 };
 

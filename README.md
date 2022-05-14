@@ -9,3 +9,5 @@ First commit - Set up the actions available for the store. Right now, I don't ha
 Second commit - I see that the AI can't be tested without first developing the login section. As per the acceptance criteria, I store the auth token in session storage, and in Redux, I only determine whether the user is logged in or logged out. I think that I'll include a logout button in the final website, for ease of use. While taking a break from brainstorming on how to perform the API call for the AI's moves, I went ahead and finished implementing the command to have the user place one of their X tokens on the grid, and prettied up the login page. I then finished the API call for the computer's moves. Remaining work to be done: highlighting rows/columns, and determining a victory state.
 
 I don't normally make such large commits, but I wanted to concentrate on what I could do to take advantage of the unexpected free time I had.
+
+Third commit - Implemented the loading screen when the API is being called for logging in or for waiting for the opponent, added hover activity for squares, and more concise rendering.

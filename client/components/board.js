@@ -3,6 +3,7 @@
 import React from 'react';
 import Square from './square';
 import { connect } from 'react-redux';
+import throbber from '../throbber.gif'
 
 class Board extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Board extends React.Component {
     }
     return (
       <React.Fragment>
-        {!this.props.loading && <img src='../throbber.gif' id='loading' />}
+        {this.props.loading && <img src={throbber} id='loading' />}
         <table id='board'>
           <tr>
             {grid[0]}

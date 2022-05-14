@@ -19,6 +19,10 @@ module.exports = {
         loader : 'babel-loader',
         options : { presets : ['@babel/react']}
 
+      },
+      {
+        test: /\.gif$/,
+        use: 'url-loader?mimetype=image/gif'
       }
     ]
   },

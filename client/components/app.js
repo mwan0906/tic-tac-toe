@@ -10,7 +10,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(window.sessionStorage.getItem('token'))
     if (!!window.sessionStorage.getItem('token')) {
       this.props.login()
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { login } from '../store';
+import throbber from '../throbber.gif'
 
 class Login extends React.Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class Login extends React.Component {
 
   render() {
     return (<div>
+      {this.state.loading && <img src={throbber} id='loading' />}
       <form id='login' onSubmit={this.handleSubmit}>
           <div className='inputs'>
             <div id='error'>{this.state.error}</div>
