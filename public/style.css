@@ -46,6 +46,10 @@ table, th {
   height: 25vh;
 }
 
+.highlighted {
+  background-color: lightpink;
+}
+
 @media only screen and (min-width: 768px) {
   label { font-size: 3vh; }
   button { font-size: 2vh; }

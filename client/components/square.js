@@ -2,23 +2,18 @@ import React from 'react';
 
 class Square extends React.Component {
 
-  hover(e) {
-    e.target.style.background = 'lightgray';
-  }
-
-  unhover(e) {
-    e.target.style.background = '';
-  }
-
   render() {
     const content = this.props.content;
     const onClick = (content == '') ? (e) => this.props.move(e) : null;
     return (
-      <th className="square"
-        onMouseEnter={(e) => this.hover(e)}
-        onMouseLeave={(e) => this.unhover(e)}
+      <th
+        className={`square ${this.props.isAdjacent ? 'highlighted' : ''}`}
+        onMouseEnter={(e) => this.props.hover(e)}
+        onMouseLeave={(e) => this.props.unhover(e)}
         onClick={onClick}
-      >{content}
+        id={this.props.id}
+      >
+      {content}
       </th>
     );
   }

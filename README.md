@@ -13,3 +13,5 @@ I don't normally make such large commits, but I wanted to concentrate on what I 
 Third commit - Implemented the loading screen when the API is being called for logging in or for waiting for the opponent, added hover activity for squares, and more concise rendering.
 
 Fourth commit - Moved the logic for changing the board state to board.js, because that makes more sense than square.js. From the beginning, I did not want squares to communicate with each other. Instead, interactions should go through the board itself.
+
+Fifth commit - Adjacent squares are now highlighted when hovering over a square. This comes from setting the board state and checking as each square is rendered if it matches the row or column.
