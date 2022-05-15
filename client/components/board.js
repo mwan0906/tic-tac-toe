@@ -11,7 +11,9 @@ class Board extends React.Component {
     super(props);
 
     this.state = {
-      error: ''
+      error: '',
+      row: 'X',
+      column: 'X'
     }
 
     this.props.getPlayer = this.props.getPlayer.bind(this)
@@ -33,13 +35,38 @@ class Board extends React.Component {
 
   }
 
+  hover(e) {
+    e.target.style.background = 'lightcoral';
+    this.setState({
+      row: e.target.id[0],
+      column: e.target.id[1]
+    });
+  }
+
+  unhover(e) {
+    e.target.style.background = '';
+    this.setState({
+      row: 'X',
+      column: 'X'
+    });
+  }
+
   render() {
     const board = this.props.board;
     let grid = [];
     for (let i = 0; i < 3; i++) {
       let row = []
       for (let j = 0; j < 3; j++) {
-        row.push(<Square move={(e) => (this.move(e, i, j))} coords={[i,j]} content={board[i][j]} />)
+        row.push(
+          <Square
+            move={(e) => (this.move(e, i, j))}
+            hover={(e) => (this.hover(e))}
+            unhover={(e) => (this.unhover(e))}
+            id={`${i}${j}`}
+            content={board[i][j]}
+            isAdjacent={(i == this.state.row || j == this.state.column)}
+          />
+        )
       }
       grid.push(row);
     }
