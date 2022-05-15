@@ -68,18 +68,21 @@ export default store;
 
 export const getAi = () => async (dispatch, getState) => {
   const { board } = getState();
-  axios.post(
+  return axios.post(
     'https://d9u7x85vp9.execute-api.us-east-2.amazonaws.com/production/engine',
     { board },
     { headers: { authorization: 'bearer ' + window.sessionStorage.getItem('token') } }
   )
   .then(({data}) => {
-    if (data.success) dispatch(aiSet(data.board))
-    else dispatch(aiSet(board))
-  });
+    let newBoard = board;
+    if (data.success) newBoard = data.board;
+    dispatch(aiSet(newBoard))
+    return newBoard;
+  })
 };
 
 // Could directly export the playerSet function, but want to be consistent
 export const getPlayer = (coords) => (dispatch, getState) => {
   dispatch(playerSet(coords));
+  return getState().board;
 }

@@ -15,3 +15,5 @@ Third commit - Implemented the loading screen when the API is being called for l
 Fourth commit - Moved the logic for changing the board state to board.js, because that makes more sense than square.js. From the beginning, I did not want squares to communicate with each other. Instead, interactions should go through the board itself.
 
 Fifth commit - Adjacent squares are now highlighted when hovering over a square. This comes from setting the board state and checking as each square is rendered if it matches the row or column.
+
+Sixth commit - Calculates win conditions. When the API returns a new board state, it checks all eight possible win states for the computer. When the user makes a move, however, we only need to check the corresponding row and column of the newest move, along with the diagonals if the move is on a corner or the center. Nothing is done yet when either side wins, though. Right now, the loading screen comes up as soon as the user makes their move, and comes down after the AI has made theirs. This makes no sense, so I'll be moving things so loading only occurs IF the AI is making a move.

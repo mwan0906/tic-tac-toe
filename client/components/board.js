@@ -11,7 +11,6 @@ class Board extends React.Component {
     super(props);
 
     this.state = {
-      error: '',
       row: 'X',
       column: 'X'
     }
@@ -22,17 +21,43 @@ class Board extends React.Component {
   async move(e, i, j) {
     e.preventDefault();
     if (!this.props.loading) {
-
-      this.props.getPlayer([i, j])
-
-      await this.props.getAi().then(res =>
-        this.setState({
-          error: res
-        })
-      );
-
+      let playerWin = this.checkWin(this.props.getPlayer([i, j]), [i, j])
+      let aiWin = await this.props.getAi().then(res => this.checkWin(res));
     }
+  }
 
+  checkWin(board, coords) {
+    let win = false;
+    if (!coords) {
+      if (board[0][0] == 'O') {
+        if (board[0][1] == 'O' && board[0][2] == 'O') win = true;
+        if (board[1][0] == 'O' && board[2][0] == 'O') win = true;
+        if (board[1][1] == 'O' && board[2][2] == 'O') win = true;
+      }
+      if (board[1][1] == 'O') {
+        if (board[1][0] == 'O' && board[1][2] == 'O') win = true;
+        if (board[0][1] == 'O' && board[2][1] == 'O') win = true;
+        if (board[0][2] == 'O' && board[2][0] == 'O') win = true;
+      }
+      if (board[2][2] == 'O') {
+        if (board[2][0] == 'O' && board[2][1] == 'O') win = true;
+        if (board[0][2] == 'O' && board[1][2] == 'O') win = true;
+      }
+    }
+    else {
+      const [i, j] = coords;
+      console.log(board[i][0], board[i][1], board[i][2])
+      if (
+        (board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') ||
+        (board[0][j] == 'X' && board[1][j] == 'X' && board[2][j] == 'X')
+      ) { win = true; }
+      if (
+        (i + j) % 2 == 0 && // Checks if the coordinates indicate a corner square or center square
+        ((board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') ||
+        (board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X'))
+      ) { win = true; }
+    }
+    return win;
   }
 
   hover(e) {
