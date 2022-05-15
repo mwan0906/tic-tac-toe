@@ -76,6 +76,22 @@ class Board extends React.Component {
     });
   }
 
+  hover(e) {
+    e.target.style.background = 'lightcoral';
+    this.setState({
+      row: e.target.id[0],
+      column: e.target.id[1]
+    });
+  }
+
+  unhover(e) {
+    e.target.style.background = '';
+    this.setState({
+      row: 'X',
+      column: 'X'
+    });
+  }
+
   render() {
     const board = this.props.board;
     let grid = [];
