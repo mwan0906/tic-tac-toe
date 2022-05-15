@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { login } from '../store';
+import { login, load, unload } from '../store';
 import throbber from '../throbber.gif'
 
 class Login extends React.Component {
@@ -9,7 +9,6 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
       error: ''
     };
 
@@ -18,9 +17,7 @@ class Login extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    this.setState({
-      loading: true
-    });
+    this.props.load();
 
     axios.post(
       'https://d9u7x85vp9.execute-api.us-east-2.amazonaws.com/production/auth',
@@ -29,24 +26,24 @@ class Login extends React.Component {
     
     .then(({data}) => {
       this.setState({
-        loading: false,
         error: ''
       })
       window.sessionStorage.setItem('token', data.token)
       this.props.login();
+      this.props.unload();
     })
     
     .catch(({response}) => {
       this.setState({
-        loading: false,
         error: response.data.error
       });
+      this.props.unload();
     });
   }
 
   render() {
     return (<div>
-      {this.state.loading && <img src={throbber} id='loading' />}
+      {this.props.loading && <img src={throbber} id='loading' />}
       <form id='login' onSubmit={this.handleSubmit}>
           <div className='inputs'>
             <div id='error'>{this.state.error}</div>
@@ -59,7 +56,7 @@ class Login extends React.Component {
               required
             />
             <br />
-            <button type='submit' disabled={this.state.loading}>
+            <button type='submit' disabled={this.props.loading}>
               Sign Up
             </button>
           </div>
@@ -68,10 +65,18 @@ class Login extends React.Component {
   }
 };
 
+const mapStateToProps = state => {
+  return {
+    loading: state.loading
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    login: () => dispatch(login())
+    login: () => dispatch(login()),
+    load: () => dispatch(load()),
+    unload: () => dispatch(unload())
   };
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -17,3 +17,5 @@ Fourth commit - Moved the logic for changing the board state to board.js, becaus
 Fifth commit - Adjacent squares are now highlighted when hovering over a square. This comes from setting the board state and checking as each square is rendered if it matches the row or column.
 
 Sixth commit - Calculates win conditions. When the API returns a new board state, it checks all eight possible win states for the computer. When the user makes a move, however, we only need to check the corresponding row and column of the newest move, along with the diagonals if the move is on a corner or the center. Nothing is done yet when either side wins, though. Right now, the loading screen comes up as soon as the user makes their move, and comes down after the AI has made theirs. This makes no sense, so I'll be moving things so loading only occurs IF the AI is making a move.
+
+Seventh commit - Moved loading logic so that it's also entirely controlled by the store, and added condition such that once victory is recognized, the player can no longer make a move. Remaining work to be done: Display victory state, add reset and logout functions.
