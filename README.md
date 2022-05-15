@@ -11,3 +11,5 @@ Second commit - I see that the AI can't be tested without first developing the l
 I don't normally make such large commits, but I wanted to concentrate on what I could do to take advantage of the unexpected free time I had.
 
 Third commit - Implemented the loading screen when the API is being called for logging in or for waiting for the opponent, added hover activity for squares, and more concise rendering.
+
+Fourth commit - Moved the logic for changing the board state to board.js, because that makes more sense than square.js. From the beginning, I did not want squares to communicate with each other. Instead, interactions should go through the board itself.

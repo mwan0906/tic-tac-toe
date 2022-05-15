@@ -4,11 +4,34 @@ import React from 'react';
 import Square from './square';
 import { connect } from 'react-redux';
 import throbber from '../throbber.gif'
+import { getAi, getPlayer } from '../store';
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      error: ''
+    }
+
+    this.props.getPlayer = this.props.getPlayer.bind(this)
   };
+
+  async move(e, i, j) {
+    e.preventDefault();
+    if (!this.props.loading) {
+
+      this.props.getPlayer([i, j])
+
+      await this.props.getAi().then(res =>
+        this.setState({
+          error: res
+        })
+      );
+
+    }
+
+  }
 
   render() {
     const board = this.props.board;
@@ -16,7 +39,7 @@ class Board extends React.Component {
     for (let i = 0; i < 3; i++) {
       let row = []
       for (let j = 0; j < 3; j++) {
-        row.push(<Square coords={[i,j]} content={board[i][j]} />)
+        row.push(<Square move={(e) => (this.move(e, i, j))} coords={[i,j]} content={board[i][j]} />)
       }
       grid.push(row);
     }
@@ -46,4 +69,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Board);
+const mapDispatchToProps = dispatch => {
+  return {
+    getAi: () => dispatch(getAi()),
+    getPlayer: (coords) => dispatch(getPlayer(coords))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
