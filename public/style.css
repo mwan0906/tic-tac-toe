@@ -1,6 +1,9 @@
-#login {
+#login, input#email, #header, #postgame {
   text-align: center;
   font-family: Verdana, sans-serif;
+}
+
+#login {
   margin-top: 30vh;
 }
 
@@ -24,11 +27,25 @@
 input#email {
   padding: 1vh;
   width: 50vw;
-  text-align: center;
   margin: 2vh;
 }
 button {
   padding: 1vh;
+}
+
+#header {
+  display: flex;
+  margin: auto;
+  margin-bottom: 2vh;
+}
+
+#header > button {
+  width: 50%;
+}
+
+#turnCounter {
+  width: 50%;
+  align-self: center;
 }
 
 table, th {
@@ -50,8 +67,20 @@ table, th {
   background-color: lightpink;
 }
 
-@media only screen and (min-width: 768px) {
+#victory {
+  margin-top: 2vh;
+}
+
+@media only screen and (min-height: 720px) {
   label { font-size: 3vh; }
   button { font-size: 2vh; }
   #email { font-size: 3vh; }
+  #turnCounter { font-size: 2vh; }
+  #victory { font-size: 2vh; }
+}
+
+@media only screen and (min-width: 720px) {
+  #header {
+    width: 30%;
+  }
 }

@@ -7,7 +7,8 @@ const initialState = {
     board: [['','',''], ['','',''], ['','','']],
     loading: false,
     loggedIn: false,
-    victor: ''
+    victor: '',
+    turnCount: 0
 }
 
 // set these to constants instead of purely strings to keep consistency easier
@@ -19,6 +20,7 @@ const LOGOUT = 'LOGOUT';
 const LOAD = 'LOAD';
 const UNLOAD = 'UNLOAD';
 const WIN = 'WIN';
+const INCREMENT_TURN_COUNT = 'INCREMENT_TURN_COUNT';
 
 const aiSet = board => ({
   type: AI_SET,
@@ -55,6 +57,10 @@ export const win = (victor) => ({
   victor
 })
 
+export const increment_turn_count = () => ({
+  type: INCREMENT_TURN_COUNT
+});
+
 const reducer = (state = initialState, action) => {
   let newBoard;
   switch (action.type) {
@@ -66,7 +72,7 @@ const reducer = (state = initialState, action) => {
       newBoard = action.board;
       return {...state, board: newBoard};
     case RESET:
-      return {...state, board: initialState.board, victory: ''};
+      return {...state, board: initialState.board, victor: '', turnCount: 0};
     case LOGIN:
       return {...state, loggedIn: true};
     case LOGOUT:
@@ -78,6 +84,8 @@ const reducer = (state = initialState, action) => {
       return {...state, loading: false};
     case WIN:
       return {...state, victor: action.victor};
+    case INCREMENT_TURN_COUNT:
+      return {...state, turnCount: state.turnCount + 1}
     default:
       return state;
   }
@@ -90,7 +98,8 @@ const store = createStore(reducer, middleware);
 export default store;
 
 export const getAi = () => async (dispatch, getState) => {
-  const { board } = getState();
+  const { board, turnCount } = getState();
+  if (turnCount == 5) return board;
   dispatch(load());
 
   return axios.post(
@@ -107,8 +116,10 @@ export const getAi = () => async (dispatch, getState) => {
   })
 };
 
-// Could directly export the playerSet function, but want to be consistent
+// Could directly export the playerSet function, but want to be consistent,
+// ie have the player's moves with the same naming scheme as the ai's moves, and returning the board state as well
 export const getPlayer = (coords) => (dispatch, getState) => {
   dispatch(playerSet(coords));
+  dispatch(increment_turn_count());
   return getState().board;
 }

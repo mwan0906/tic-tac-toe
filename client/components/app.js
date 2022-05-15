@@ -1,8 +1,9 @@
 import React from 'react';
-import Board from './board';
+import Gamepage from './gamepage';
 import Login from './login';
 import { connect } from 'react-redux';
 import { login } from '../store';
+import throbber from '../throbber.gif'
 
 class App extends React.Component {
   constructor(props) {
@@ -16,17 +17,19 @@ class App extends React.Component {
   }
 
   render() {
-    return (this.props.loggedIn) ? (
-      <Board />
-    ) : (
-      <Login />
-    );
+    return (
+      <React.Fragment>
+        {this.props.loading && <img src={throbber} id='loading' />}
+        {this.props.loggedIn ? <Gamepage /> : <Login />}
+      </React.Fragment>
+    )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.loggedIn
+    loggedIn: state.loggedIn,
+    loading: state.loading
   };
 };
 

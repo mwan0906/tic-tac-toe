@@ -3,7 +3,6 @@
 import React from 'react';
 import Square from './square';
 import { connect } from 'react-redux';
-import throbber from '../throbber.gif'
 import { getAi, getPlayer, win } from '../store';
 
 class Board extends React.Component {
@@ -27,6 +26,7 @@ class Board extends React.Component {
         let aiWin = await this.props.getAi().then(res => this.checkWin(res));
         if (aiWin) this.props.win('AI')
       }
+      if (this.props.turnCount == 5) this.props.win('X')
     }
   }
 
@@ -64,19 +64,23 @@ class Board extends React.Component {
   }
 
   hover(e) {
-    e.target.style.background = 'lightcoral';
-    this.setState({
-      row: e.target.id[0],
-      column: e.target.id[1]
-    });
+    if (!this.props.victor) {
+      e.target.style.background = 'lightcoral';
+      this.setState({
+        row: e.target.id[0],
+        column: e.target.id[1]
+      });
+    }
   }
 
   unhover(e) {
-    e.target.style.background = '';
-    this.setState({
-      row: 'X',
-      column: 'X'
-    });
+    if (!this.props.victor) {
+      e.target.style.background = '';
+      this.setState({
+        row: 'X',
+        column: 'X'
+      });
+    }
   }
 
   render() {
@@ -99,20 +103,17 @@ class Board extends React.Component {
       grid.push(row);
     }
     return (
-      <React.Fragment>
-        {this.props.loading && <img src={throbber} id='loading' />}
-        <table id='board'>
-          <tr>
-            {grid[0]}
-          </tr>
-          <tr>
-            {grid[1]}
-          </tr>
-          <tr>
-            {grid[2]}
-          </tr>
-        </table>
-      </React.Fragment>
+      <table id='board'>
+        <tr>
+          {grid[0]}
+        </tr>
+        <tr>
+          {grid[1]}
+        </tr>
+        <tr>
+          {grid[2]}
+        </tr>
+      </table>
     );
   };
 };
@@ -121,7 +122,8 @@ const mapStateToProps = state => {
   return {
     board: state.board,
     loading: state.loading,
-    victor: state.victor
+    victor: state.victor,
+    turnCount: state.turnCount
   };
 };
 
